@@ -1,0 +1,4 @@
+# Staging / pre-launch: block all crawlers. Remove this block and optionally add
+# a Sitemap: line when the site should be indexed and crawled.
+User-agent: *
+Disallow: /

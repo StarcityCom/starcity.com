@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+
+# Editors / IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Env (secrets); allow documenting vars without committing them
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
