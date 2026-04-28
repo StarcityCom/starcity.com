@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Starcity Marketing Site",
+  "schemaVersion": 1,
+  "description": "Starcity marketing website — full single-page design with trademark Classes 9/36/42, platform screenshots, and access form"
+}
+</script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starcity™ — Aviation Fleet Intelligence</title>
+  <meta name="description" content="Starcity is the aviation fleet intelligence platform for fleet management, maintenance planning, and aircraft financial analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Barlow+Condensed:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#060608; --bg-2:#0c0c10; --bg-3:#111118; --bg-4:#16161f;
+      --border:rgba(180,185,220,0.08); --border-md:rgba(180,185,220,0.13); --border-hi:rgba(180,185,220,0.22);
+      --text-1:#ededf5; --text-2:#9090ae; --text-3:#50505e;
+      --accent:#5580e0; --accent-light:#7fa3f5; --accent-glow:rgba(85,128,224,0.12);
+      --gold:#c8a96e;
+      --display:'Cormorant Garamond',Georgia,serif;
+      --sans:'DM Sans',system-ui,sans-serif;
+      --label:'Barlow Condensed',sans-serif;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text-1);font-family:var(--sans);font-size:15px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    #starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+    /* LOGO */
+    .logo{display:flex;align-items:center;text-decoration:none}
+    .logo-img{height:38px;width:auto;display:block;mix-blend-mode:screen}
+    .star-icon{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen;display:block}
+    .star-icon-sm{width:14px;height:14px;object-fit:contain;mix-blend-mode:screen;display:block}
+    .star-icon-md{width:22px;height:22px;object-fit:contain;mix-blend-mode:screen;display:block}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,8,0.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background 0.4s}
+    nav.scrolled{background:rgba(6,6,8,0.92)}
+    .nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+    .nav-links a{font-family:var(--label);font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-2);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover{color:var(--text-1)}
+    .btn-nav{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--bg);background:var(--text-1);border:none;padding:9px 22px;cursor:pointer;text-decoration:none;transition:background 0.2s;display:inline-block}
+    .btn-nav:hover{background:var(--accent-light)}
+
+    /* HERO */
+    #hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:130px 6% 100px}
+    .hero-inner{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center}
+    .hero-eyebrow{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent-light);margin-bottom:26px;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.9s 0.1s ease forwards}
+    .hero-eyebrow::before{content:'';width:36px;height:1px;background:currentColor;display:block;flex-shrink:0}
+    .hero-headline{font-family:var(--display);font-size:clamp(56px,5.5vw,88px);font-weight:300;line-height:1.02;letter-spacing:-0.01em;color:var(--text-1);margin-bottom:32px;opacity:0;animation:fadeUp 0.9s 0.22s ease forwards}
+    .hero-headline em{font-style:italic;color:var(--gold)}
+    .hero-body{font-size:15px;line-height:1.75;color:var(--text-2);max-width:400px;margin-bottom:48px;opacity:0;animation:fadeUp 0.9s 0.36s ease forwards}
+    .hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s 0.48s ease forwards}
+    .btn-primary{font-family:var(--label);font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--bg);background:var(--text-1);border:none;padding:14px 32px;cursor:pointer;text-decoration:none;transition:background 0.2s,transform 0.15s;display:inline-flex;align-items:center;gap:8px}
+    .btn-primary:hover{background:var(--accent-light);transform:translateY(-1px)}
+    .btn-ghost{font-family:var(--label);font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-2);background:transparent;border:1px solid var(--border-md);padding:13px 28px;cursor:pointer;text-decoration:none;transition:color 0.2s,border-color 0.2s,transform 0.15s;display:inline-flex;align-items:center;gap:8px}
+    .btn-ghost:hover{color:var(--text-1);border-color:var(--border-hi);transform:translateY(-1px)}
+    .hero-visual{position:relative;opacity:0;animation:fadeUp 1s 0.28s ease forwards}
+    .hero-visual::before{content:'';position:absolute;inset:-40px;background:radial-gradient(ellipse at center,var(--accent-glow) 0%,transparent 70%);pointer-events:none;z-index:0}
+    .hero-screenshot{position:relative;z-index:1;border:1px solid var(--border-md);border-radius:3px;overflow:hidden;box-shadow:0 48px 120px rgba(0,0,0,0.9),0 0 0 1px rgba(255,255,255,0.03) inset}
+
+    /* STAT BAR */
+    .stat-bar{position:relative;z-index:1;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 6%}
+    .stat-bar-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat-item{padding:0 32px;border-right:1px solid var(--border)}
+    .stat-item:first-child{padding-left:0}
+    .stat-item:last-child{border-right:none}
+    .stat-val{font-family:var(--display);font-size:34px;font-weight:400;color:var(--text-1);line-height:1;margin-bottom:4px}
+    .stat-label{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-3)}
+
+    /* SECTIONS */
+    section{position:relative;z-index:1}
+    .section-label{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent-light);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+    .section-label::before{content:'';width:24px;height:1px;background:currentColor;display:block;flex-shrink:0}
+    .section-title{font-family:var(--display);font-size:clamp(38px,4vw,62px);font-weight:300;line-height:1.08;color:var(--text-1)}
+    .section-title em{font-style:italic;color:var(--gold)}
+    .section-body{font-size:15px;line-height:1.75;color:var(--text-2)}
+
+    /* PLATFORM */
+    #platform{padding:130px 6%}
+    .platform-inner{max-width:1280px;margin:0 auto}
+    .platform-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:56px}
+    .screenshot-full{border:1px solid var(--border-md);border-radius:2px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.7)}
+    .screenshots-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+    .screenshot-card{background:var(--bg-2);border:1px solid var(--border);border-radius:2px;overflow:hidden;transition:border-color 0.3s,box-shadow 0.3s}
+    .screenshot-card:hover{border-color:var(--border-md);box-shadow:0 16px 48px rgba(0,0,0,0.5)}
+    .screenshot-caption{padding:14px 18px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:2px}
+    .screenshot-cap-eyebrow{font-family:var(--label);font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-3)}
+    .screenshot-cap-title{font-family:var(--label);font-size:13px;font-weight:500;letter-spacing:0.06em;color:var(--text-2)}
+
+    /* APP MOCKUPS */
+    .am{background:var(--bg-2);overflow:hidden}
+    .am-bar{background:var(--bg-3);padding:9px 16px;font-family:var(--label);font-size:10px;letter-spacing:0.1em;color:var(--text-3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .am-dots{display:flex;gap:4px}
+    .am-dots span{width:6px;height:6px;border-radius:50%;background:var(--border-md)}
+    .am-thead{display:grid;padding:8px 16px;font-family:var(--label);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border)}
+    .am-trow{display:grid;padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;color:var(--text-2);align-items:center}
+    .am-trow:last-child{border-bottom:none}
+    .am-ok{color:#6dc478;font-family:var(--label);font-size:9px;letter-spacing:0.1em;text-transform:uppercase}
+    .am-warn{color:var(--gold);font-family:var(--label);font-size:9px;letter-spacing:0.1em;text-transform:uppercase}
+    .am-hi{color:var(--accent-light)}
+    .am-split{display:grid;grid-template-columns:1fr 1fr}
+    .am-panel{padding:14px 16px}
+    .am-kv{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+    .am-kv:last-child{border-bottom:none}
+    .am-k{font-family:var(--label);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
+    .am-v{font-size:11px;color:var(--text-1)}
+    .am-wire{padding:16px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border)}
+    .am-wire svg{width:100%;max-width:160px;opacity:0.35}
+    .am-bars{display:flex;align-items:flex-end;gap:5px;height:72px;padding:10px 16px 0}
+    .am-bar-col{background:var(--accent);border-radius:1px 1px 0 0;flex:1;opacity:0.65}
+
+    /* SERVICES */
+    #services{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .services-head{padding:110px 6% 60px;max-width:1280px;margin:0 auto}
+    .services-grid{max-width:1280px;margin:0 auto;padding:0 6%;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .service-card{background:var(--bg-2);padding:52px 44px 48px;transition:background 0.3s}
+    .service-card:hover{background:var(--bg-3)}
+    .service-icon{width:36px;height:36px;border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;margin-bottom:28px;overflow:hidden}
+    .service-title{font-family:var(--display);font-size:30px;font-weight:500;line-height:1.15;color:var(--text-1);margin-bottom:18px}
+    .service-body{font-size:14px;line-height:1.75;color:var(--text-2);margin-bottom:28px}
+    .service-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .service-list li{font-family:var(--label);font-size:11px;font-weight:500;letter-spacing:0.05em;color:var(--text-3);display:flex;align-items:flex-start;gap:8px}
+    .service-list li::before{content:'—';color:var(--accent);font-size:9px;flex-shrink:0;margin-top:2px}
+    .services-foot{padding:0 6% 110px}
+
+    /* TRADEMARK */
+    #trademark{padding:90px 6%;border-bottom:1px solid var(--border)}
+    .trademark-inner{max-width:1280px;margin:0 auto}
+    .trademark-head{display:flex;align-items:center;gap:20px;margin-bottom:44px}
+    .trademark-head-line{flex:1;height:1px;background:var(--border)}
+    .trademark-head-label{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-3);white-space:nowrap}
+    .trademark-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .tm-card{border:1px solid var(--border);padding:36px 32px;background:var(--bg-2)}
+    .tm-service-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden}
+    .tm-class-title{font-family:var(--label);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-light);margin-bottom:18px}
+    .tm-desc{font-size:13px;line-height:1.7;color:var(--text-2)}
+    .tm-desc strong{color:var(--text-1);font-weight:500}
+
+    /* ACCESS */
+    #access{padding:130px 6%}
+    .access-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
+    .access-features{margin-top:48px;display:flex;flex-direction:column;gap:24px}
+    .access-feature{display:flex;align-items:flex-start;gap:18px}
+    .access-feature-icon{flex-shrink:0;margin-top:3px;overflow:hidden}
+    .access-feature-title{font-family:var(--label);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-2);margin-bottom:3px}
+    .access-feature-body{font-size:13px;color:var(--text-3)}
+    .form-panel{background:var(--bg-2);border:1px solid var(--border-md);padding:52px 48px}
+    .form-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:36px}
+    .tab-btn{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);background:none;border:none;padding:12px 24px 12px 0;margin-right:24px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color 0.2s,border-color 0.2s}
+    .tab-btn.active{color:var(--text-1);border-bottom-color:var(--accent)}
+    .tab-btn:hover:not(.active){color:var(--text-2)}
+    .form-group{margin-bottom:18px}
+    .form-label{display:block;font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
+    .form-input{width:100%;background:var(--bg);border:1px solid var(--border-md);color:var(--text-1);font-family:var(--sans);font-size:14px;padding:12px 14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;border-radius:0;-webkit-appearance:none}
+    .form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+    .form-input::placeholder{color:var(--text-3)}
+    .form-submit{width:100%;font-family:var(--label);font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--bg);background:var(--text-1);border:none;padding:16px;cursor:pointer;margin-top:8px;transition:background 0.2s}
+    .form-submit:hover{background:var(--accent-light)}
+    .form-divider{text-align:center;margin:20px 0;position:relative}
+    .form-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border)}
+    .form-divider span{position:relative;background:var(--bg-2);padding:0 12px;font-family:var(--label);font-size:10px;letter-spacing:0.1em;color:var(--text-3)}
+    .form-note{font-size:12px;color:var(--text-3);line-height:1.6;margin-top:14px}
+    .form-link{color:var(--accent-light);text-decoration:none;cursor:pointer}
+    .form-link:hover{text-decoration:underline}
+
+    /* FOOTER */
+    footer{position:relative;z-index:1;background:var(--bg);border-top:1px solid var(--border);padding:68px 6% 44px}
+    .footer-inner{max-width:1280px;margin:0 auto}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:56px;padding-bottom:56px;border-bottom:1px solid var(--border)}
+    .footer-brand-desc{font-size:13px;line-height:1.7;color:var(--text-3);max-width:260px;margin-top:16px}
+    .footer-col-head{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-2);margin-bottom:16px}
+    .footer-col-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .footer-col-links a{font-size:13px;color:var(--text-3);text-decoration:none;transition:color 0.2s}
+    .footer-col-links a:hover{color:var(--text-2)}
+    .footer-bottom{display:flex;align-items:flex-start;justify-content:space-between;gap:48px}
+    .footer-legal{font-size:11px;line-height:1.75;color:var(--text-3);max-width:760px}
+    .footer-legal p{margin-bottom:5px}
+    .footer-copy{font-size:11px;color:var(--text-3);text-align:right;white-space:nowrap;flex-shrink:0}
+    .footer-copy p+p{margin-top:4px}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity 0.3s,visibility 0.3s}
+    .modal-overlay.open{opacity:1;visibility:visible}
+    .modal{background:var(--bg-2);border:1px solid var(--border-md);width:100%;max-width:460px;padding:52px 48px;position:relative;transform:translateY(24px);transition:transform 0.3s}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal-close{position:absolute;top:18px;right:18px;background:none;border:none;cursor:pointer;color:var(--text-3);font-size:22px;line-height:1;padding:4px;transition:color 0.2s}
+    .modal-close:hover{color:var(--text-1)}
+    .modal-logo{display:flex;align-items:center;margin-bottom:28px}
+    .modal-title{font-family:var(--display);font-size:34px;font-weight:300;color:var(--text-1);margin-bottom:8px}
+    .modal-subtitle{font-size:13px;color:var(--text-2);margin-bottom:32px;line-height:1.6}
+
+    /* TOAST */
+    #toast{position:fixed;bottom:36px;right:36px;background:var(--bg-2);border:1px solid var(--border-md);padding:16px 24px;z-index:9999;opacity:0;transform:translateY(14px);transition:opacity 0.3s,transform 0.3s;pointer-events:none;font-family:var(--label);font-size:12px;letter-spacing:0.06em;color:var(--text-2);max-width:340px}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.75s ease,transform 0.75s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:1100px){.hero-inner{grid-template-columns:1fr}.hero-visual{display:none}.platform-head{grid-template-columns:1fr}.access-inner{grid-template-columns:1fr;gap:60px}.footer-top{grid-template-columns:1fr 1fr;gap:40px}}
+    @media(max-width:800px){nav{padding:0 5%}.nav-links{display:none}#hero{padding:110px 5% 80px}.stat-bar{padding:20px 5%}.stat-bar-inner{grid-template-columns:1fr 1fr;row-gap:20px}.stat-item{padding:0 16px}.stat-item:nth-child(2n){border-right:none}.services-grid{grid-template-columns:1fr}.trademark-grid{grid-template-columns:1fr}.screenshots-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column}.form-panel{padding:36px 28px}#platform{padding:90px 5%}.services-head{padding:80px 5% 48px}.services-foot{padding:0 5% 80px}.services-grid{padding:0 5%}#trademark{padding:72px 5%}#access{padding:90px 5%}footer{padding:56px 5% 36px}}
+  </style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<nav id="main-nav">
+  <a href="#" class="logo">
+    <img src="Starcity_Logo_WO.jpg" alt="STARCITY™" class="logo-img">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#platform">Platform</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#access">Access</a></li>
+  </ul>
+  <a href="#access" class="btn-nav" onclick="openModal();return false;">Access Platform or Download Software Now</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-eyebrow">Aviation Fleet Intelligence Platform</p>
+      <h1 class="hero-headline">Total Fleet<br><em>Intelligence</em><br>for Modern<br>Aviation</h1>
+      <p class="hero-body">Starcity™ is the unified platform aviation operators use to manage their fleets, plan maintenance, and understand the full financial picture of every aircraft they fly.</p>
+      <div class="hero-actions">
+        <a href="#access" class="btn-primary" onclick="openModal();return false;">Access Platform or Download Software Now <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 5.5h9M6.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#platform" class="btn-ghost">See the Platform</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-screenshot">
+        <div class="am">
+          <div class="am-bar"><div class="am-dots"><span></span><span></span><span></span></div>Starcity™ · Maintenance</div>
+          <div class="am-split" style="min-height:300px">
+            <div class="am-wire">
+              <svg viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="90" cy="60" rx="72" ry="10" stroke="#5580e0" stroke-width="0.8" opacity="0.6"/>
+                <line x1="18" y1="60" x2="162" y2="60" stroke="#5580e0" stroke-width="1" opacity="0.6"/>
+                <line x1="90" y1="16" x2="90" y2="104" stroke="#5580e0" stroke-width="1" opacity="0.6"/>
+                <line x1="38" y1="38" x2="54" y2="54" stroke="#5580e0" stroke-width="0.6" opacity="0.4"/>
+                <line x1="142" y1="38" x2="126" y2="54" stroke="#5580e0" stroke-width="0.6" opacity="0.4"/>
+                <line x1="38" y1="82" x2="54" y2="66" stroke="#5580e0" stroke-width="0.6" opacity="0.4"/>
+                <line x1="142" y1="82" x2="126" y2="66" stroke="#5580e0" stroke-width="0.6" opacity="0.4"/>
+                <circle cx="90" cy="60" r="3" fill="#5580e0" opacity="0.9"/>
+              </svg>
+            </div>
+            <div class="am-panel">
+              <div class="am-kv"><span class="am-k">Airframe TSN</span><span class="am-v">24,180 hrs</span></div>
+              <div class="am-kv"><span class="am-k">Engine 1 CSN</span><span class="am-v">8,420 cyc</span></div>
+              <div class="am-kv"><span class="am-k">Next C-Check</span><span class="am-v am-warn">912 hrs</span></div>
+              <div class="am-kv"><span class="am-k">APU Hours</span><span class="am-v">6,210 hrs</span></div>
+              <div class="am-kv"><span class="am-k">LG Overhaul</span><span class="am-v">3,840 cyc</span></div>
+              <div class="am-kv"><span class="am-k">Status</span><span class="am-v am-ok">Active</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item">
+      <div class="stat-val">A320<em style="font-family:var(--display);font-style:italic;color:var(--text-2);font-size:0.55em"> series +</em></div>
+      <div class="stat-label">Aircraft Types Supported</div>
+    </div>
+    <div class="stat-item"><div class="stat-val">3</div><div class="stat-label">Platform Modules</div></div>
+    <div class="stat-item"><div class="stat-val">Real&#8209;time</div><div class="stat-label">Fleet Visibility</div></div>
+    <div class="stat-item"><div class="stat-val" style="font-size:24px;padding-top:6px;">Early Access</div><div class="stat-label">Now Available</div></div>
+  </div>
+</div>
+
+<section id="platform">
+  <div class="platform-inner">
+    <div class="platform-head">
+      <div>
+        <p class="section-label reveal">The Starcity™ Platform</p>
+        <h2 class="section-title reveal">Your entire fleet,<br><em>at a glance</em></h2>
+      </div>
+      <div>
+        <p class="section-body reveal">From high-level fleet overviews to deep-dive airframe specs and maintenance logs — Starcity puts everything aviation operators need into a single, beautifully designed workspace.</p>
+      </div>
+    </div>
+    <div class="screenshot-full reveal">
+      <div class="am">
+        <div class="am-bar"><div class="am-dots"><span></span><span></span><span></span></div>Starcity™ · Fleet Overview</div>
+        <div class="am-thead" style="grid-template-columns:1.4fr 1fr 0.8fr 1fr 1fr"><span>Registration</span><span>Aircraft Type</span><span>Status</span><span>Airframe TSN</span><span>Next Event</span></div>
+        <div class="am-trow" style="grid-template-columns:1.4fr 1fr 0.8fr 1fr 1fr"><span class="am-hi">N123AB</span><span>A320-200</span><span class="am-ok">Active</span><span>24,180 hrs</span><span class="am-warn">912 hrs</span></div>
+        <div class="am-trow" style="grid-template-columns:1.4fr 1fr 0.8fr 1fr 1fr"><span class="am-hi">N456CD</span><span>B737-800</span><span class="am-ok">Active</span><span>18,640 hrs</span><span>1,840 hrs</span></div>
+        <div class="am-trow" style="grid-template-columns:1.4fr 1fr 0.8fr 1fr 1fr"><span class="am-hi">N789EF</span><span>A320neo</span><span class="am-warn">Maint.</span><span>9,210 hrs</span><span>Scheduled</span></div>
+        <div class="am-trow" style="grid-template-columns:1.4fr 1fr 0.8fr 1fr 1fr"><span class="am-hi">N012GH</span><span>E175</span><span class="am-ok">Active</span><span>31,005 hrs</span><span>3,200 hrs</span></div>
+      </div>
+    </div>
+    <div class="screenshots-grid">
+      <div class="screenshot-card reveal">
+        <div class="am">
+          <div class="am-bar"><div class="am-dots"><span></span><span></span><span></span></div>Maintenance Intelligence</div>
+          <div class="am-split" style="min-height:180px">
+            <div class="am-wire">
+              <svg viewBox="0 0 140 100" fill="none"><ellipse cx="70" cy="50" rx="56" ry="8" stroke="#5580e0" stroke-width="0.8" opacity="0.5"/><line x1="14" y1="50" x2="126" y2="50" stroke="#5580e0" stroke-width="1" opacity="0.5"/><line x1="70" y1="14" x2="70" y2="86" stroke="#5580e0" stroke-width="1" opacity="0.5"/><circle cx="70" cy="50" r="2.5" fill="#5580e0" opacity="0.9"/></svg>
+            </div>
+            <div class="am-panel">
+              <div class="am-kv"><span class="am-k">Airframe</span><span class="am-v">24,180</span></div>
+              <div class="am-kv"><span class="am-k">Engine</span><span class="am-v">8,420</span></div>
+              <div class="am-kv"><span class="am-k">C-Check</span><span class="am-v am-warn">912 hrs</span></div>
+              <div class="am-kv"><span class="am-k">Status</span><span class="am-v am-ok">Active</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="screenshot-caption">
+          <div class="screenshot-cap-eyebrow">Starcity™ Platform</div>
+          <div class="screenshot-cap-title">Maintenance Intelligence</div>
+        </div>
+      </div>
+      <div class="screenshot-card reveal">
+        <div class="am">
+          <div class="am-bar"><div class="am-dots"><span></span><span></span><span></span></div>Financial Analysis</div>
+          <div class="am-bars">
+            <div class="am-bar-col" style="height:55%"></div>
+            <div class="am-bar-col" style="height:72%"></div>
+            <div class="am-bar-col" style="height:88%"></div>
+            <div class="am-bar-col" style="height:100%"></div>
+            <div class="am-bar-col" style="height:60%"></div>
+            <div class="am-bar-col" style="height:78%"></div>
+            <div class="am-bar-col" style="height:45%"></div>
+            <div class="am-bar-col" style="height:92%"></div>
+          </div>
+          <div class="am-panel" style="padding-top:10px">
+            <div class="am-kv"><span class="am-k">Projected Cost</span><span class="am-v">$2.4M</span></div>
+            <div class="am-kv"><span class="am-k">Fleet Valuation</span><span class="am-v">$18.2M</span></div>
+            <div class="am-kv"><span class="am-k">Next Event</span><span class="am-v am-warn">C-Check</span></div>
+          </div>
+        </div>
+        <div class="screenshot-caption">
+          <div class="screenshot-cap-eyebrow">Starcity™ Platform</div>
+          <div class="screenshot-cap-title">Financial Analysis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="services-head">
+    <p class="section-label reveal">What We Offer</p>
+    <h2 class="section-title reveal">Built for every dimension<br><em>of fleet operations</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon" aria-hidden="true"></div>
+      <h3 class="service-title">Fleet<br>Management<br>Software</h3>
+      <p class="service-body">Starcity™ computer software enables operators to track every aircraft in their fleet, manage utilization data, and maintain a live operational picture across the entire operation.</p>
+      <ul class="service-list">
+        <li>Multi-aircraft fleet dashboards</li><li>Airframe, engine &amp; APU tracking</li><li>Utilization, cycle &amp; TSN monitoring</li><li>Spec sheets and aircraft records</li><li>Real-time fleet status visibility</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon" aria-hidden="true"></div>
+      <h3 class="service-title">Maintenance<br>Planning<br>&amp; Scheduling</h3>
+      <p class="service-body">The Starcity™ platform delivers cloud-based maintenance planning, event scheduling, and compliance tracking — so aviation teams never miss a critical interval or inspection requirement.</p>
+      <ul class="service-list">
+        <li>Maintenance event scheduling</li><li>Component time &amp; cycle tracking</li><li>Interval compliance monitoring</li><li>Maintenance log documentation</li><li>Cloud-hosted data and records</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon" aria-hidden="true"></div>
+      <h3 class="service-title">Aircraft<br>Financial<br>Analysis</h3>
+      <p class="service-body">Starcity™ delivers aircraft valuation and aviation financial analysis services — providing cost projections, interval-based expense modeling, and asset management insights for sophisticated fleet operators.</p>
+      <ul class="service-list">
+        <li>Maintenance cost projection</li><li>Aircraft valuation services</li><li>Event-based financial modeling</li><li>Upcoming event cost forecasting</li><li>Fleet asset management analysis</li>
+      </ul>
+    </div>
+  </div>
+  <div class="services-foot"></div>
+</section>
+
+<section id="trademark">
+  <div class="trademark-inner">
+    <div class="trademark-head">
+      <span class="trademark-head-label">STARCITY™ &mdash; Platform Services</span>
+      <span class="trademark-head-line"></span>
+    </div>
+    <div class="trademark-grid">
+      <div class="tm-card reveal">
+        <div class="tm-service-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon-md" aria-hidden="true"></div>
+        <div class="tm-class-title">Fleet Management Software</div>
+        <p class="tm-desc"><strong>STARCITY™</strong> computer software for aviation fleet management; software for aircraft maintenance tracking and scheduling; software for aviation data analysis, recording, and reporting; software for monitoring aircraft component time, cycles, and service intervals; computer software for aircraft specification management and record-keeping.</p>
+      </div>
+      <div class="tm-card reveal">
+        <div class="tm-service-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon-md" aria-hidden="true"></div>
+        <div class="tm-class-title">Aircraft Valuation &amp; Financial Services</div>
+        <p class="tm-desc"><strong>STARCITY™</strong> aircraft valuation services; financial analysis services in the field of aviation and aircraft fleet management; aviation asset management services; financial consulting services related to aircraft maintenance cost planning; fleet financial analysis and cost projection services; advisory services relating to aircraft financial management.</p>
+      </div>
+      <div class="tm-card reveal">
+        <div class="tm-service-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon-md" aria-hidden="true"></div>
+        <div class="tm-class-title">Cloud Platform &amp; SaaS Services</div>
+        <p class="tm-desc"><strong>STARCITY™</strong> software as a service (SaaS) featuring software for aviation fleet management, aircraft maintenance planning and scheduling, and aviation data analytics; cloud-based software services for aircraft record-keeping and fleet analysis; providing temporary use of non-downloadable software for tracking, managing, and analyzing aviation fleet operations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="access">
+  <div class="access-inner">
+    <div>
+      <p class="section-label reveal">Platform Access</p>
+      <h2 class="section-title reveal">Get early access<br><em>to Starcity</em></h2>
+      <div class="access-features">
+        <div class="access-feature reveal">
+          <span class="access-feature-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon-sm" aria-hidden="true"></span>
+          <div><p class="access-feature-title">Fleet Management</p><p class="access-feature-body">Track your entire operation in one place.</p></div>
+        </div>
+        <div class="access-feature reveal">
+          <span class="access-feature-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon-sm" aria-hidden="true"></span>
+          <div><p class="access-feature-title">Maintenance Planning</p><p class="access-feature-body">Never miss a critical interval or event.</p></div>
+        </div>
+        <div class="access-feature reveal">
+          <span class="access-feature-icon"><img src="Starcity_Star_WO.jpg" alt="" class="star-icon-sm" aria-hidden="true"></span>
+          <div><p class="access-feature-title">Financial Analysis</p><p class="access-feature-body">Model costs and project events with clarity.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-panel reveal">
+      <div class="form-tabs">
+        <button class="tab-btn active" id="tab-signup-btn" onclick="showTab('signup')">Access Platform or Download Software Now</button>
+        <button class="tab-btn" id="tab-signin-btn" onclick="showTab('signin')">Sign In</button>
+      </div>
+      <div id="pane-signup">
+        <div class="form-group"><label class="form-label" for="s-name">Full Name</label><input class="form-input" type="text" id="s-name" placeholder="Joel Lyon" autocomplete="name"></div>
+        <div class="form-group"><label class="form-label" for="s-org">Organization</label><input class="form-input" type="text" id="s-org" placeholder="Airline or Operator Name" autocomplete="organization"></div>
+        <div class="form-group"><label class="form-label" for="s-email">Email Address</label><input class="form-input" type="email" id="s-email" placeholder="joel@airline.com" autocomplete="email"></div>
+        <div class="form-group"><label class="form-label" for="s-fleet">Approximate Fleet Size</label><input class="form-input" type="text" id="s-fleet" placeholder="e.g. 8 aircraft"></div>
+        <button class="form-submit" onclick="handleForm('signup')">Access Platform or Download Software Now&nbsp;&rarr;</button>
+        <p class="form-note">Your request will be reviewed by the Starcity team. We'll be in touch within a few business days to discuss more.</p>
+      </div>
+      <div id="pane-signin" style="display:none">
+        <div class="form-group"><label class="form-label" for="i-email">Email Address</label><input class="form-input" type="email" id="i-email" placeholder="your@email.com" autocomplete="email"></div>
+        <div class="form-group"><label class="form-label" for="i-password">Password</label><input class="form-input" type="password" id="i-password" placeholder="••••••••" autocomplete="current-password"></div>
+        <button class="form-submit" onclick="handleForm('signin')">Access Platform &nbsp;&rarr;</button>
+        <div class="form-divider"><span>or</span></div>
+        <p class="form-note" style="text-align:center;">Don't have access yet? <a class="form-link" onclick="showTab('signup')">Access Platform or Download Software Now</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="#" class="logo">
+          <img src="Starcity_Logo_WO.jpg" alt="STARCITY™" class="logo-img">
+        </a>
+        <p class="footer-brand-desc">Aviation Fleet Intelligence Platform. Starcity™ provides fleet management software, maintenance planning, and aircraft financial analysis for aviation operators worldwide.</p>
+      </div>
+      <div>
+        <p class="footer-col-head">Platform</p>
+        <ul class="footer-col-links">
+          <li><a href="#platform">Fleet Dashboard</a></li><li><a href="#platform">Maintenance Module</a></li><li><a href="#platform">Analysis Module</a></li><li><a href="#access">Access Platform or Download Software Now</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-head">Services</p>
+        <ul class="footer-col-links">
+          <li><a href="#services">Fleet Management</a></li><li><a href="#services">Maintenance Planning</a></li><li><a href="#services">Financial Analysis</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-head">Company</p>
+        <ul class="footer-col-links">
+          <li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <p>STARCITY™ and the star design mark are trademarks of Starcity. All rights reserved. This website and its contents constitute use of the STARCITY™ mark in commerce in connection with aviation fleet management software, aircraft maintenance planning and scheduling services, aircraft valuation services, and aviation financial analysis services.</p>
+        <p>The Starcity™ platform provides computer software for aviation fleet management and maintenance tracking; aircraft valuation and financial analysis services in the field of aviation; and cloud-based software services for fleet management, maintenance planning, and aviation data analytics.</p>
+        <p style="margin-top:10px;">The Starcity platform is currently available to select operators during early access. Access to app.starcity.com is provided to approved users only.</p>
+      </div>
+      <div class="footer-copy"><p>&copy; 2026 Starcity</p><p>www.starcity.com</p></div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="maybeCloseModal(event)">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Request access to Starcity">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+    <div class="modal-logo">
+      <img src="Starcity_Logo_WO.jpg" alt="STARCITY™" class="logo-img" style="height:28px;">
+    </div>
+    <h2 class="modal-title">Access Platform or Download Software Now</h2>
+    <p class="modal-subtitle">Join the Starcity early access program for aviation operators.</p>
+    <div class="form-group"><label class="form-label" for="m-email">Email Address</label><input class="form-input" type="email" id="m-email" placeholder="your@email.com"></div>
+    <div class="form-group"><label class="form-label" for="m-org">Organization</label><input class="form-input" type="text" id="m-org" placeholder="Airline or Operator"></div>
+    <button class="form-submit" onclick="handleModal()">Submit &nbsp;&rarr;</button>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const canvas=document.getElementById('starfield');
+  const ctx=canvas.getContext('2d');
+  let stars=[],w,h;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+  function seed(){stars=[];const n=Math.min(Math.floor((w*h)/4800),280);for(let i=0;i<n;i++)stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.1+0.1,base:Math.random()*0.45+0.08,phase:Math.random()*Math.PI*2,spd:Math.random()*0.004+0.001})}
+  function draw(){ctx.clearRect(0,0,w,h);for(const s of stars){s.phase+=s.spd;const a=s.base*(0.55+0.45*Math.sin(s.phase));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(210,220,255,${a})`;ctx.fill()}requestAnimationFrame(draw)}
+  resize();seed();draw();
+  window.addEventListener('resize',()=>{resize();seed()});
+})();
+
+window.addEventListener('scroll',()=>{document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>24)},{passive:true});
+
+const revealEls=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -32px 0px'});
+revealEls.forEach(el=>{const siblings=[...el.parentElement.querySelectorAll(':scope > .reveal')];const idx=siblings.indexOf(el);if(idx>0)el.style.transitionDelay=(idx*0.09)+'s';io.observe(el)});
+
+function showTab(name){const sig=name==='signup';document.getElementById('pane-signup').style.display=sig?'block':'none';document.getElementById('pane-signin').style.display=sig?'none':'block';document.getElementById('tab-signup-btn').classList.toggle('active',sig);document.getElementById('tab-signin-btn').classList.toggle('active',!sig)}
+function handleForm(type){showToast(type==='signup'?"You're on the list — we'll be in touch soon.":'Checking credentials…')}
+function handleModal(){closeModal();setTimeout(()=>showToast("You're on the list — we'll be in touch soon."),380)}
+function openModal(){document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>{const el=document.getElementById('m-email');if(el)el.focus()},350)}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow=''}
+function maybeCloseModal(e){if(e.target.id==='modal-overlay')closeModal()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+let _tt;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';t.style.transform='translateY(0)';clearTimeout(_tt);_tt=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(14px)'},4200)}
+</script>
+</body>
+</html>
